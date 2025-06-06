@@ -13,7 +13,7 @@ variable "public_subnet" {
   description = "퍼블릭 서브넷 설정 정보"
 }
 
-variable "private_subnet" {
-  type        = map(string)
+variable "private_subnets" {
+  type        = map(map(string))
   description = "프라이빗 서브넷 설정 정보"
 }

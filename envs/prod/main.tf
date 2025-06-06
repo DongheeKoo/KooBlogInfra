@@ -20,9 +20,41 @@ provider "aws" {
 }
 
 module "vpc" {
-  source         = "../../modules/vpc"
-  vpc_name       = local.vpc_name
-  vpc_cidr       = local.vpc_cidr
-  public_subnet  = local.public_subnet
-  private_subnet = local.private_subnet
+  source          = "../../modules/vpc"
+  vpc_name        = local.vpc_name
+  vpc_cidr        = local.vpc_cidr
+  public_subnet   = local.public_subnet
+  private_subnets = local.private_subnets
+}
+
+module "rds" {
+  for_each = local.rds_instances
+  source   = "../../modules/rds"
+
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnet_ids
+
+  identifier = each.key
+
+  engine         = each.value.engine
+  engine_version = each.value.engine_version
+  instance_class = each.value.instance_class
+
+  allocated_storage     = each.value.allocated_storage
+  max_allocated_storage = each.value.max_allocated_storage
+  storage_type          = each.value.storage_type
+  storage_encrypted     = each.value.storage_encrypted
+
+  db_name  = each.value.db_name
+  username = each.value.username
+  password = each.value.password
+
+  publicly_accessible = each.value.publicly_accessible
+  multi_az            = each.value.multi_az
+
+  backup_retention_period      = each.value.backup_retention_period
+  monitoring_interval          = each.value.monitoring_interval
+  performance_insights_enabled = each.value.performance_insights_enabled
+  deletion_protection          = each.value.deletion_protection
+  skip_final_snapshot          = each.value.skip_final_snapshot
 }

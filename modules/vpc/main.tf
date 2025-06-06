@@ -28,12 +28,13 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_subnet" "private" {
+  for_each          = var.private_subnets
   vpc_id            = aws_vpc.main.id
-  cidr_block        = var.private_subnet.cidr_block
-  availability_zone = var.private_subnet.availability_zone
+  cidr_block        = each.value.cidr_block
+  availability_zone = each.value.availability_zone
 
   tags = {
-    Name      = "${var.vpc_name}-private-subnet"
+    Name      = "${var.vpc_name}-${each.key}"
     ManagedBy = "Terraform"
   }
 }
