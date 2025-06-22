@@ -24,7 +24,7 @@ locals {
   rds_instances = {
     "koo-blog" = {
       engine         = "postgres"
-      engine_version = "16.3"
+      engine_version = "16.8"
       instance_class = "db.t3.micro"
 
       allocated_storage     = 20
@@ -50,6 +50,6 @@ locals {
   ### EKS ###
   eks_prefix                  = "koo-blog"
   eks_kubernetes_version      = "1.32"
-  eks_endpoint_private_access = true
-  eks_endpoint_public_access  = false
+  eks_endpoint_private_access = false
+  eks_endpoint_public_access  = true
 }

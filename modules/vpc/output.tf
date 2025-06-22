@@ -11,5 +11,5 @@ output "private_subnet_ids" {
 }
 
 output "all_subnet_ids" {
-  value = [for subnet in aws_subnet : subnet.id]
+  value = concat([for subnet in aws_subnet.private : subnet.id], [aws_subnet.public.id])
 }
