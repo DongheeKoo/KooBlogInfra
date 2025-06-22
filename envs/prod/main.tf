@@ -58,3 +58,12 @@ module "rds" {
   deletion_protection          = each.value.deletion_protection
   skip_final_snapshot          = each.value.skip_final_snapshot
 }
+
+module "eks" {
+  source                  = "../../modules/eks"
+  eks_prefix              = local.eks_prefix
+  kubernetes_version      = local.eks_kubernetes_version
+  endpoint_private_access = local.eks_endpoint_private_access
+  endpoint_public_access  = local.eks_endpoint_public_access
+  subnet_ids              = module.vpc.all_subnet_ids
+}

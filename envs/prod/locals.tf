@@ -46,4 +46,10 @@ locals {
       skip_final_snapshot          = true
     }
   }
+
+  ### EKS ###
+  eks_prefix                  = "koo-blog"
+  eks_kubernetes_version      = "1.32"
+  eks_endpoint_private_access = true
+  eks_endpoint_public_access  = false
 }
