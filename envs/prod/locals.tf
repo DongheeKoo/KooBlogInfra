@@ -55,7 +55,7 @@ locals {
 
   ### EKS Node Group ###
   eks_node_groups = {
-    "koo-blog-first" = {
+    "first" = {
       capacity_type   = "ON_DEMAND"
       instance_types  = ["t3.micro"]
       desired_size    = 1
