@@ -22,3 +22,8 @@ variable "subnet_ids" {
   type        = list(string)
   description = "Subnet ID 목록"
 }
+
+variable "eks_node_groups" {
+  type        = map(any)
+  description = "EKS Node Group 목록"
+}

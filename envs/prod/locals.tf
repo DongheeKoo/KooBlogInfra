@@ -52,4 +52,18 @@ locals {
   eks_kubernetes_version      = "1.32"
   eks_endpoint_private_access = false
   eks_endpoint_public_access  = true
+
+  ### EKS Node Group ###
+  eks_node_groups = {
+    "koo-blog-first" = {
+      eks_node_version = "1.32"
+      capacity_type    = "ON_DEMAND"
+      instance_types   = ["t3.micro"]
+      desired_size     = 1
+      max_size         = 1
+      min_size         = 1
+      max_unavailable  = 1
+      subnet_ids       = module.vpc.private_subnet_ids
+    }
+  }
 }

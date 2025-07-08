@@ -66,4 +66,5 @@ module "eks" {
   endpoint_private_access = local.eks_endpoint_private_access
   endpoint_public_access  = local.eks_endpoint_public_access
   subnet_ids              = module.vpc.all_subnet_ids
+  eks_node_groups         = local.eks_node_groups
 }
