@@ -39,8 +39,7 @@ resource "aws_eks_node_group" "eks_node_group" {
 
   cluster_name = aws_eks_cluster.eks.name
 
-  version         = aws_eks_cluster.eks.version
-  release_version = each.value.eks_node_version
+  version = aws_eks_cluster.eks.version
 
   node_group_name = "${var.eks_prefix}-node-group-${each.key}"
   node_role_arn   = aws_iam_role.eks_node_group.arn

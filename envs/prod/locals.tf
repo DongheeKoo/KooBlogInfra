@@ -56,14 +56,13 @@ locals {
   ### EKS Node Group ###
   eks_node_groups = {
     "koo-blog-first" = {
-      eks_node_version = "1.32"
-      capacity_type    = "ON_DEMAND"
-      instance_types   = ["t3.micro"]
-      desired_size     = 1
-      max_size         = 1
-      min_size         = 1
-      max_unavailable  = 1
-      subnet_ids       = module.vpc.private_subnet_ids
+      capacity_type   = "ON_DEMAND"
+      instance_types  = ["t3.micro"]
+      desired_size    = 1
+      max_size        = 1
+      min_size        = 1
+      max_unavailable = 1
+      subnet_ids      = module.vpc.private_subnet_ids
     }
   }
 }
