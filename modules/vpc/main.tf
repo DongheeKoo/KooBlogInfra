@@ -16,6 +16,25 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
+resource "aws_eip" "ngw" {
+  domain = "vpc"
+
+  tags = {
+    Name      = "${var.vpc_name}-nat-eip"
+    ManagedBy = "Terraform"
+  }
+}
+
+resource "aws_nat_gateway" "ngw" {
+  allocation_id = aws_eip.ngw.id
+  subnet_id     = aws_subnet.public.id
+
+  tags = {
+    Name      = "${var.vpc_name}-ngw"
+    ManagedBy = "Terraform"
+  }
+}
+
 resource "aws_subnet" "public" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.public_subnet.cidr_block
