@@ -57,7 +57,7 @@ locals {
   eks_node_groups = {
     "first" = {
       capacity_type   = "ON_DEMAND"
-      instance_types  = ["t3.micro"]
+      instance_types  = ["t3.small"]
       desired_size    = 1
       max_size        = 1
       min_size        = 1
