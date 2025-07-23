@@ -19,6 +19,38 @@ provider "aws" {
   region = "ap-northeast-2"
 }
 
+provider "helm" {
+  kubernetes = {
+    host                   = module.eks.eks_endpoint
+    token                  = module.eks.eks_cluster_auth.token
+    cluster_ca_certificate = base64decode(module.eks.cluster_ca_certificate)
+  }
+}
+
+resource "helm_release" "aws_load_balancer_controller" {
+  name            = "aws-load-balancer-controller"
+  chart           = "aws-load-balancer-controller"
+  repository      = "https://aws.github.io/eks-charts"
+  namespace       = "kube-system"
+  force_update    = true
+  replace         = true
+  atomic          = true
+  cleanup_on_fail = true
+
+  values = [
+    <<-EOT
+    clusterName: ${module.eks.eks_name}
+    serviceAccount:
+      create: true
+      name: aws-load-balancer-controller
+      annotations:
+        eks.amazonaws.com/role-arn: ${module.eks.ingress_controller_role_arn}
+    region: ap-northeast-2
+    vpcId: ${module.vpc.vpc_id}
+    EOT
+  ]
+}
+
 module "vpc" {
   source          = "../../modules/vpc"
   vpc_name        = local.vpc_name
@@ -60,11 +92,13 @@ module "rds" {
 }
 
 module "eks" {
-  source                  = "../../modules/eks"
-  eks_prefix              = local.eks_prefix
-  kubernetes_version      = local.eks_kubernetes_version
-  endpoint_private_access = local.eks_endpoint_private_access
-  endpoint_public_access  = local.eks_endpoint_public_access
-  subnet_ids              = module.vpc.all_subnet_ids
-  eks_node_groups         = local.eks_node_groups
+  source                   = "../../modules/eks"
+  eks_prefix               = local.eks_prefix
+  kubernetes_version       = local.eks_kubernetes_version
+  endpoint_private_access  = local.eks_endpoint_private_access
+  endpoint_public_access   = local.eks_endpoint_public_access
+  subnet_ids               = module.vpc.all_subnet_ids
+  eks_node_groups          = local.eks_node_groups
+  account_id               = local.account_id
+  aws_lb_controller_policy = local.aws_lb_controller_policy
 }

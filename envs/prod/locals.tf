@@ -1,5 +1,8 @@
 locals {
 
+  ### 공통 설정 ###
+  account_id = "122976268003"
+
   ### VPC ###
 
   vpc_name = "koo-blog"
@@ -52,6 +55,7 @@ locals {
   eks_kubernetes_version      = "1.32"
   eks_endpoint_private_access = false
   eks_endpoint_public_access  = true
+  aws_lb_controller_policy    = "arn:aws:iam::122976268003:policy/aws-lb-controller-policy"
 
   ### EKS Node Group ###
   eks_node_groups = {

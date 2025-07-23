@@ -27,3 +27,13 @@ variable "eks_node_groups" {
   type        = map(any)
   description = "EKS Node Group 목록"
 }
+
+variable "account_id" {
+  type        = string
+  description = "AWS 계정 ID"
+}
+
+variable "aws_lb_controller_policy" {
+  type        = string
+  description = "AWS LB Controller 정책"
+}
