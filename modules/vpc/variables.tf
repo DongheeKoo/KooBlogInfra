@@ -8,8 +8,8 @@ variable "vpc_cidr" {
   description = "VPC CIDR"
 }
 
-variable "public_subnet" {
-  type        = map(string)
+variable "public_subnets" {
+  type        = map(map(string))
   description = "퍼블릭 서브넷 설정 정보"
 }
 

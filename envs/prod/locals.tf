@@ -7,17 +7,23 @@ locals {
 
   vpc_name = "koo-blog"
   vpc_cidr = "10.1.0.0/16"
-  public_subnet = {
-    cidr_block        = "10.1.0.0/18"
-    availability_zone = "ap-northeast-2a"
+  public_subnets = {
+    "public-subnet-1" = {
+      cidr_block        = "10.1.0.0/18"
+      availability_zone = "ap-northeast-2a"
+    }
+    "public-subnet-2" = {
+      cidr_block        = "10.1.64.0/18"
+      availability_zone = "ap-northeast-2b"
+    }
   }
   private_subnets = {
     "private-subnet-1" = {
-      cidr_block        = "10.1.64.0/18"
+      cidr_block        = "10.1.128.0/18"
       availability_zone = "ap-northeast-2a"
     }
     "private-subnet-2" = {
-      cidr_block        = "10.1.128.0/18"
+      cidr_block        = "10.1.192.0/18"
       availability_zone = "ap-northeast-2b"
     }
   }
