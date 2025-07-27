@@ -37,3 +37,12 @@ variable "aws_lb_controller_policy" {
   type        = string
   description = "AWS LB Controller 정책"
 }
+
+variable "aws_auth_map_users" {
+  type = list(object({
+    userarn  = string
+    username = string
+    groups   = list(string)
+  }))
+  description = "aws-auth ConfigMap의 mapUsers 설정"
+}
