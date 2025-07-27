@@ -75,4 +75,13 @@ locals {
       subnet_ids      = module.vpc.private_subnet_ids
     }
   }
+
+  ### EKS RBAC 설정 ###
+  aws_auth_map_users = [
+    {
+      userarn  = "arn:aws:iam::122976268003:role/github-actions"
+      username = "github-actions"
+      groups   = ["system:masters"]
+    }
+  ]
 }

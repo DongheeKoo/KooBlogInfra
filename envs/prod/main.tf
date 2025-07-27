@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.0"
+    }
   }
 
   backend "s3" {
@@ -17,6 +21,12 @@ terraform {
 
 provider "aws" {
   region = "ap-northeast-2"
+}
+
+provider "kubernetes" {
+  host                   = module.eks.eks_endpoint
+  cluster_ca_certificate = base64decode(module.eks.cluster_ca_certificate)
+  token                  = module.eks.eks_cluster_auth.token
 }
 
 provider "helm" {
@@ -101,4 +111,5 @@ module "eks" {
   eks_node_groups          = local.eks_node_groups
   account_id               = local.account_id
   aws_lb_controller_policy = local.aws_lb_controller_policy
+  aws_auth_map_users       = local.aws_auth_map_users
 }
