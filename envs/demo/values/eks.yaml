@@ -1,0 +1,9 @@
+cluster:
+  eks_version: "1.32"
+  endpoint_private_access: false
+  endpoint_public_access: true
+  
+  subnets:
+    control_plane:
+      public: [0, 1]
+      private: [0, 1]
