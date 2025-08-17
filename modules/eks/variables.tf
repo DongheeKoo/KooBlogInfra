@@ -8,7 +8,7 @@ variable "eks_version" {
   description = "EKS 버전"
 }
 
-variable "subnet_ids" {
+variable "cluster_subnet_ids" {
   type        = list(string)
   description = "EKS 클러스터가 Pod을 생성할 서브넷 ID 목록"
 }
@@ -21,4 +21,14 @@ variable "endpoint_private_access" {
 variable "endpoint_public_access" {
   type        = bool
   description = "Endpoint public access 활성화 여부"
+}
+
+variable "eks_node_groups" {
+  type        = map(any)
+  description = "EKS 노드 그룹 목록"
+}
+
+variable "node_group_subnet_ids" {
+  type        = list(string)
+  description = "노드 그룹이 노드를 생성할 서브넷 ID 목록"
 }

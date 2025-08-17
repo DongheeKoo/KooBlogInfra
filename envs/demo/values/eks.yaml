@@ -3,7 +3,19 @@ cluster:
   endpoint_private_access: false
   endpoint_public_access: true
   
-  subnets:
-    control_plane:
-      public: [0, 1]
-      private: [0, 1]
+subnets:
+  control_plane:
+    public: [0, 1]
+    private: [0, 1]
+  node_groups:
+    public: [0, 1]
+    private: [0, 1]
+
+eks_node_groups:
+  first: 
+    capacity_type: ON_DEMAND
+    instance_types: ["t3.micro"]
+    desired_size: 1
+    max_size: 1
+    min_size: 1
+    max_unavailable: 1

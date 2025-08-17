@@ -22,8 +22,14 @@ locals {
     private = module.vpc.private_subnet_ids
   }
 
-  eks_subnet_ids = flatten([
-    for subnet_type, indices in local.eks_config.cluster.subnets.control_plane : [
+  eks_cluster_subnet_ids = flatten([
+    for subnet_type, indices in local.eks_config.subnets.control_plane : [
+      for index in indices : local.vpc_subnet_map[subnet_type][index]
+    ]
+  ])
+
+  eks_node_group_subnet_ids = flatten([
+    for subnet_type, indices in local.eks_config.subnets.node_groups : [
       for index in indices : local.vpc_subnet_map[subnet_type][index]
     ]
   ])
@@ -44,5 +50,7 @@ module "eks" {
   eks_version             = local.eks_config.cluster.eks_version
   endpoint_private_access = local.eks_config.cluster.endpoint_private_access
   endpoint_public_access  = local.eks_config.cluster.endpoint_public_access
-  subnet_ids              = module.vpc.private_subnet_ids
+  cluster_subnet_ids      = local.eks_cluster_subnet_ids
+  node_group_subnet_ids   = local.eks_node_group_subnet_ids
+  eks_node_groups         = local.eks_config.eks_node_groups
 }
