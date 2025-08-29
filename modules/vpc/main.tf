@@ -30,3 +30,31 @@ resource "aws_subnet" "private" {
     ManagedBy = "Terraform"
   }
 }
+
+resource "aws_eip" "ngw" {
+  domain = "vpc"
+
+  tags = {
+    Name      = "${var.vpc_name}-nat-eip"
+    ManagedBy = "Terraform"
+  }
+}
+
+resource "aws_nat_gateway" "ngw" {
+  allocation_id = aws_eip.ngw.id
+  subnet_id     = values(aws_subnet.public)[0].id
+
+  tags = {
+    Name      = "${var.vpc_name}-ngw"
+    ManagedBy = "Terraform"
+  }
+}
+
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name      = "${var.vpc_name}-igw"
+    ManagedBy = "Terraform"
+  }
+}
